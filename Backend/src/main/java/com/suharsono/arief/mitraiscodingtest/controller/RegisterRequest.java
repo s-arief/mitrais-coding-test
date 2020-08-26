@@ -3,11 +3,12 @@ package com.suharsono.arief.mitraiscodingtest.controller;
 import com.suharsono.arief.mitraiscodingtest.model.Registration;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class RegisterRequest {
     
     @NotBlank
+    @Pattern(regexp="^(0|[1-9][0-9]*)$")
     private String mobileNumber;
     
     @NotBlank
