@@ -13,15 +13,17 @@
 
 -- Dumping structure for table mitrais.registration
 CREATE TABLE IF NOT EXISTS `registration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `mobile_number` varchar(16) NOT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `birthdate` date DEFAULT NULL,
-  `gender` enum('F','M') DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`mobile_number`),
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `birthdate` date NOT NULL,
+  `gender` enum('F','M') NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mobile_number` (`mobile_number`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
