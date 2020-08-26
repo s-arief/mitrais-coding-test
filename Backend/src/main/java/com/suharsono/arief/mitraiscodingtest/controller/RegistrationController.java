@@ -39,11 +39,15 @@ public class RegistrationController {
         registration.setMobileNumber(request.getMobileNumber());
         registration.setFirstName(request.getFirstName());
         registration.setLastName(request.getLastName());
-        try {
-            registration.setBirthDate(sdf.parse(request.getBirthDate()));
-        } catch (ParseException ex) {
-            return ResponseBuilder.buildResponseError(ResponseMessage.RegistrationBirthdateInvalid);
+        
+        if (request.getBirthDate() != null) {
+            try {
+                registration.setBirthDate(sdf.parse(request.getBirthDate()));
+            } catch (ParseException ex) {
+                return ResponseBuilder.buildResponseError(ResponseMessage.RegistrationBirthdateInvalid);
+            }
         }
+        
         registration.setGender(request.getGender());
         registration.setEmail(request.getEmail());
         try {

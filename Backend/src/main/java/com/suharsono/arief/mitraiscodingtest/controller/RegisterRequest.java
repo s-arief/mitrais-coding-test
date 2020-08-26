@@ -16,10 +16,8 @@ public class RegisterRequest {
     @NotBlank
     private String lastName;
     
-    @NotBlank
     private String birthDate;
     
-    @NotNull
     private Registration.Gender gender;
     
     @NotBlank
