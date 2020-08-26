@@ -15,6 +15,22 @@ public class ResponseBuilder {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
     }
     
+    public static ResponseEntity buildResponseBadRequest(String message) {
+        JSONObject retVal = new JSONObject();
+        retVal.put("error", true);
+        retVal.put("code", ResponseMessage.GenericBadRequest.code);
+        retVal.put("message", message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
+    }
+    
+    public static ResponseEntity buildResponseBadRequest(ResponseMessage rm) {
+        JSONObject retVal = new JSONObject();
+        retVal.put("error", true);
+        retVal.put("code", rm.code);
+        retVal.put("message", rm.message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
+    }
+    
     public static ResponseEntity buildResponseServerError() {
         JSONObject retVal = new JSONObject();
         retVal.put("error", true);

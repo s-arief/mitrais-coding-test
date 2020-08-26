@@ -35,7 +35,7 @@ public class RegistrationController {
         String mobileNumber = request.getMobileNumber();
         if (mobileNumber.length() > 14 ||
                 (mobileNumber.charAt(0) != '0') && !mobileNumber.substring(0, 2).equals("62")) {
-            return ResponseBuilder.buildResponseError(ResponseMessage.RegistrationMobileNumberInvalid);
+            return ResponseBuilder.buildResponseBadRequest(ResponseMessage.RegistrationMobileNumberInvalid);
         }
         
         registration.setMobileNumber(request.getMobileNumber());
@@ -46,7 +46,7 @@ public class RegistrationController {
             try {
                 registration.setBirthDate(sdf.parse(request.getBirthDate()));
             } catch (ParseException ex) {
-                return ResponseBuilder.buildResponseError(ResponseMessage.RegistrationBirthdateInvalid);
+                return ResponseBuilder.buildResponseBadRequest(ResponseMessage.RegistrationBirthdateInvalid);
             }
         }
         

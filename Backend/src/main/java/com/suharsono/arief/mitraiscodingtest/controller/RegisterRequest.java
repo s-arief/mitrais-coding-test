@@ -7,22 +7,22 @@ import javax.validation.constraints.Pattern;
 
 public class RegisterRequest {
     
-    @NotBlank
-    @Pattern(regexp="^([0-9]*)$")
+    @NotBlank(message = "mobileNumber needed")
+    @Pattern(regexp="^([0-9]*)$", message = "mobileNumber invalid")
     private String mobileNumber;
     
-    @NotBlank
+    @NotBlank(message = "firstName needed")
     private String firstName;
     
-    @NotBlank
+    @NotBlank(message = "lastName needed")
     private String lastName;
     
     private String birthDate;
     
     private Registration.Gender gender;
     
-    @NotBlank
-    @Email
+    @NotBlank(message = "email needed")
+    @Email(message = "email invalid")
     private String email;
 
     public String getMobileNumber() {
