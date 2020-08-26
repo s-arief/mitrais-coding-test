@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 public class RegisterRequest {
     
     @NotBlank
-    @Pattern(regexp="^(0|[1-9][0-9]*)$")
+    @Pattern(regexp="^([0-9]*)$")
     private String mobileNumber;
     
     @NotBlank
