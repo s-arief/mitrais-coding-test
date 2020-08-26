@@ -1,0 +1,187 @@
+<html>
+    <head>
+        <title>Registration Page</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row" style="margin-top: 40px">
+                <div class="col-md-3 col-sm-0"></div>
+                <div class="col-md-6 col-sm-12 text-center">
+                    <h2>Registration</h2>
+                    <form id="registration_form">
+                        <input type="number" class="form-control" id="form_mobile_number" placeholder="Mobile Number" style="margin-top: 20px" required/>
+                        <p style="color: red; display: none; margin-bottom: 0" id="mobile_number_warning"></p>
+                        <input type="text" class="form-control" id="form_first_name" placeholder="First Name" style="margin-top: 10px" required/>
+                        <input type="text" class="form-control" id="form_last_name" placeholder="Last Name" style="margin-top: 10px" required/>
+                        <p style="text-align: left; margin-top: 10px; font-weight: bold">Date of Birth</p>
+                        <div class="row">
+                            <div class="col-4">
+                                <select id="form_select_year" class="form-control">
+                                    <option disabled selected>Select Year</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="form_select_month" class="form-control">
+                                    <option disabled selected>Select Month</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="form_select_date" class="form-control">
+                                    <option disabled selected>Select Date</option>
+                                </select>
+                            </div>
+                        </div><p style="text-align: left; margin-top: 10px; font-weight: bold">Gender</p>
+                        <div class="row">
+                            <div class="col-6" style="text-align: left">
+                                <input type="radio" name="gender" value="M" id="form_gender_M"/> Male
+                            </div>
+                            <div class="col-6" style="text-align: left">
+                                <input type="radio" name="gender" value="F" id="form_gender_F"/> Female
+                            </div>
+                        </div>
+                        <input type="email" class="form-control" id="form_email" placeholder="Email" style="margin-top: 10px" required/>
+                        <p style="color: red; display: none" id="email_warning"></p>
+                        <input type="submit" id="submit_button" value="Submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 10px" />
+                        <p style="color: red; display: none" id="global_warning"></p>
+                    </form>
+                    <a href="login.html" id="login_link" style='display: none'><button class="btn btn-primary btn-lg btn-block" style="margin-top: 10px">Login</button></a>
+                </div>
+                <div class="col-md-3 col-sm-0"></div>
+            </div>
+        </div>
+        <footer style="position: absolute; bottom: 0; width: 100%; text-align: center">
+            <h4>Footer</h4>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Add Select Year Option
+                for (i = 1920; i < 2020; i++) {
+                    var option = $("<option></option>");
+                    option.text(i);
+                    option.val(i + "");
+                    $('#form_select_year').append(option);
+                }
+                
+                // Add Select Month Option
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Desember"];
+                for (i = 0; i < 12; i++) {
+                    var option = $("<option></option>");
+                    option.text(months[i]);
+                    if (i < 9) {
+                        option.val("0" + (i + 1))
+                    } else {
+                        option.val("" + (i + 1));
+                    }
+                    $('#form_select_month').append(option);
+                }
+                
+                // Add Select Date
+                for (i = 1; i <= 31; i++) {
+                    var option = $("<option></option>");
+                    option.text(i);
+                    if (i < 10) {
+                        option.val("0" + i)
+                    } else {
+                        option.val("" + i);
+                    }
+                    $('#form_select_date').append(option);
+                }
+                
+                // Registration Form on submit
+                $('#registration_form').on("submit", function(e) {
+                    e.preventDefault();
+                    $('#mobile_number_warning').hide();
+                    $('#email_warning').hide();
+                    $('#global_warning').hide();
+                    var valid = true;
+                    var mobileNumber = $('#form_mobile_number').val();
+                    if (mobileNumber.length > 14 || (mobileNumber.substr(0, 1) != "0" && mobileNumber.substr(0, 2) != "62" && mobileNumber.substr(0, 3) != "+62")) {
+                        valid = false;
+                        $('#mobile_number_warning').html("Invalid Mobile Number");
+                        $('#mobile_number_warning').show();
+                    }
+                    
+                    // remove +
+                    if (mobileNumber.substr(0, 1) == "+") {
+                        mobileNumber = mobileNumber.substr(1, mobileNumber.length);
+                    }
+                    
+                    var firstName = $('#form_first_name').val();
+                    var lastName = $('#form_last_name').val();
+                    var email = $('#form_email').val();
+                    var gender = $("input[name=gender]:checked").val();
+                    var birthDate = undefined;
+                    var selectedYear = $('#form_select_year').val()
+                    var selectedMonth = $('#form_select_month').val()
+                    var selectedDate = $('#form_select_date').val()
+                    
+                    // only fill birthDate only if three components exists
+                    if (selectedYear !== null && selectedMonth !== null && selectedDate !== null) {
+                        birthDate = selectedDate + "-" + selectedMonth + "-" + selectedYear;
+                    }
+                    
+                    var request = {};
+                    request.firstName = firstName;
+                    request.lastName = lastName;
+                    request.mobileNumber = mobileNumber;
+                    request.email = email;
+                    if (gender != undefined) {
+                        request.gender = gender;
+                    }
+                    if (birthDate != undefined) {
+                        request.birthDate = birthDate;
+                    }
+                    
+                    var url = "http://localhost:8080/register";
+                    $.ajax(url, {
+                        data : JSON.stringify(request),
+                        contentType : 'application/json',
+                        type : 'POST',
+                        success : function(data) {
+                            var error = data.error;
+                            if (error) {
+                                var code = data.code;
+                                var warningPlace = "";
+                                if (code == 1102) {
+                                    // email already exists
+                                    warningPlace = "email_warning";
+                                } else if (code == 1103) {
+                                    // phone number already exists
+                                    warningPlace = "mobile_number_warning";
+                                } else if (code == 1104) {
+                                    // phone number invalid
+                                    warningPlace = "mobile_number_warning";
+                                } else {
+                                    // another error
+                                    warningPlace = "global_warning";
+                                }
+                                $('#' + warningPlace).show();
+                                $('#' + warningPlace).html(data.message);
+                            } else {
+                                // success
+                                $('#form_mobile_number').prop('disabled', true);
+                                $('#form_first_name').prop('disabled', true);
+                                $('#form_last_name').prop('disabled', true);
+                                $('#form_email').prop('disabled', true);
+                                $('#submit_button').prop('disabled', true);
+                                $('#form_select_year').prop('disabled', true);
+                                $('#form_select_month').prop('disabled', true);
+                                $('#form_select_date').prop('disabled', true);
+                                $("input[name=gender]").prop('disabled', true);
+                                $('#login_link').show();
+                            }
+                        },
+                        error : function(xhr, status, error) {
+                            var err = JSON.parse(xhr.responseText);
+                            $('#global_warning').show();
+                            $('#global_warning').html(err.message);
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
