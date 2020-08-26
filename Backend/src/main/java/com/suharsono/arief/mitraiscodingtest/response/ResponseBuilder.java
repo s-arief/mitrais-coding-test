@@ -2,6 +2,7 @@ package com.suharsono.arief.mitraiscodingtest.response;
 
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseBuilder {
@@ -12,7 +13,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", ResponseMessage.GenericBadRequest.code);
         retVal.put("message", ResponseMessage.GenericBadRequest.message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     public static ResponseEntity buildResponseBadRequest(String message) {
@@ -20,7 +21,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", ResponseMessage.GenericBadRequest.code);
         retVal.put("message", message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     public static ResponseEntity buildResponseBadRequest(ResponseMessage rm) {
@@ -28,7 +29,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", rm.code);
         retVal.put("message", rm.message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     public static ResponseEntity buildResponseServerError() {
@@ -36,7 +37,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", ResponseMessage.GenericServerError.code);
         retVal.put("message", ResponseMessage.GenericServerError.message);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     public static ResponseEntity buildResponseError(ResponseMessage rm) {
@@ -44,7 +45,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", rm.code);
         retVal.put("message", rm.message);
-        return ResponseEntity.status(HttpStatus.OK).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     public static ResponseEntity buildResponseError(ResponseException ex) {
@@ -52,7 +53,7 @@ public class ResponseBuilder {
         retVal.put("error", true);
         retVal.put("code", ex.getResponseMessage().code);
         retVal.put("message", ex.getResponseMessage().message);
-        return ResponseEntity.status(HttpStatus.OK).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
     // Success
@@ -61,7 +62,7 @@ public class ResponseBuilder {
         retVal.put("error", false);
         retVal.put("code", rm.code);
         retVal.put("message", rm.message);
-        return ResponseEntity.status(HttpStatus.OK).body(retVal.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(retVal.toString());
     }
     
 }
